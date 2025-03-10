@@ -1,23 +1,31 @@
-<!-- Describe what this PR is for in the title. -->
+<!-- 작업의 간단한 요약 -->
 
-> `*` denotes required fields
+## 📑 작업 개요
 
-## Priority*
+-
 
-- [ ] High: This PR needs to be merged first, before other tasks.
-- [x] Medium: This PR should be merged quickly to prevent conflicts due to common changes. (default)
-- [ ] Low: This PR does not affect other tasks, so it can be merged later.
+<!-- 이 작업을 진행한 이유 -->
 
-## Purpose of the PR*
-<!-- Describe the purpose of the PR. -->
+## ✨ 작업 이유
 
-## Changes*
+-
 
+<!-- 핵심적인 코드 변경 사항에 대한 설명 -->
 
-## How to check the feature
-<!-- Describe how to check the feature in detail -->
-<!-- If there are any visual changes, please attach a screenshot for easy identification. -->
+## 📌 작업 내용
 
+-
 
-## Reference
-<!-- Any helpful information for understanding the PR. -->
+<!-- (선택) 리뷰어에게 전하고 싶은 말 -->
+
+## 🤝🏻 해당 부분을 중점적으로 리뷰해주세요!
+
+<!-- (선택) 실행 화면 캡처 또는 영상 업로드 -->
+
+## 🖥️ 실행 화면
+
+<!-- 관련 이슈 번호 체크 -->
+
+## 🎟️ 관련 이슈
+
+close:
