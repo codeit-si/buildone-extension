@@ -52,7 +52,7 @@ export default function Login() {
     try {
       await login(data.email, data.password);
 
-      navigate('/dashboard');
+      navigate('/');
     } catch (error: unknown) {
       if (error instanceof ApiError) {
         if (

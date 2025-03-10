@@ -34,8 +34,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 };
 
 export default function Router() {
-  console.log(111);
-
   return (
     <MemoryRouter>
       <AuthProvider>
