@@ -24,8 +24,9 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@extension/storage": "workspace:*",
     "@extension/shared": "workspace:*",
+    "@extension/storage": "workspace:*",
+    "class-variance-authority": "0.7.1",
     "clsx": "^2.1.1",
     "tailwind-merge": "^2.4.0"
   },

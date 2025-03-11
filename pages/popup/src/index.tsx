@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import '@src/index.css';
-import Popup from '@src/Popup';
+import Router from '@src/Router';
 
 function init() {
   const appContainer = document.querySelector('#app-container');
@@ -9,7 +9,7 @@ function init() {
   }
   const root = createRoot(appContainer);
 
-  root.render(<Popup />);
+  root.render(<Router />);
 }
 
 init();
