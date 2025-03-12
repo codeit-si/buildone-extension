@@ -46,7 +46,7 @@ export const useTodoFormContext = () => {
 };
 
 function Popup() {
-  const { register, handleSubmit, watch, setValue, formState, trigger, getValues } = useForm<TodoFormSchema>({
+  const { register, handleSubmit, watch, setValue, formState, trigger } = useForm<TodoFormSchema>({
     resolver: zodResolver(todoFormSchema),
     mode: 'onBlur',
     defaultValues: {
@@ -54,7 +54,6 @@ function Popup() {
       link: '',
     },
   });
-  console.log(getValues());
   const [selectedGoalId, setSelectedGoalId] = useState<number | undefined>();
 
   const formContextValue = useMemo(

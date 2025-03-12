@@ -7,7 +7,6 @@ import {
   reissueAccessToken,
   retryRequestWithNewToken,
 } from '@src/services/auth/token';
-import { storeAccessTokenInCookie } from '@src/services/auth/route-handler';
 import { authStorage } from '@extension/storage';
 
 const api = axios.create({
@@ -32,7 +31,7 @@ api.interceptors.request.use(
     const newAccessToken = await reissueAccessToken();
 
     if (newAccessToken) {
-      await storeAccessTokenInCookie(newAccessToken);
+      await authStorage.setAccessToken(newAccessToken);
       return getConfigWithAuthorizationHeaders(config, newAccessToken);
     }
 
