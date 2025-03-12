@@ -4,7 +4,9 @@ import type { Dispatch, PropsWithChildren, SetStateAction } from 'react';
 import { createContext, useContext, useEffect, useState } from 'react';
 import Login from './components/Login';
 import PrivateRoute from './components/PrivateRoute';
-
+import { useStorage } from '@extension/shared';
+import { authStorage } from '@extension/storage';
+import TanstackQueryProvider from '@src/lib/tanstack-query-provider';
 interface AuthContextProps {
   authenticated: boolean;
   setAuthenticated: Dispatch<SetStateAction<boolean>>;
@@ -25,10 +27,15 @@ export function useAuthContext() {
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [authenticated, setAuthenticated] = useState(true);
+  const auth = useStorage(authStorage);
 
   useEffect(() => {
-    // 토큰이 있는지 검사
-  }, []);
+    if (auth) {
+      setAuthenticated(true);
+    } else {
+      setAuthenticated(false);
+    }
+  }, [auth]);
 
   return <AuthContext.Provider value={{ authenticated, setAuthenticated }}>{children}</AuthContext.Provider>;
 };
@@ -36,14 +43,16 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 export default function Router() {
   return (
     <MemoryRouter>
-      <AuthProvider>
-        <Routes>
-          <Route path="/" element={<PrivateRoute />}>
-            <Route path="/" element={<Popup />} />
-          </Route>
-          <Route path="/login" element={<Login />} />
-        </Routes>
-      </AuthProvider>
+      <TanstackQueryProvider>
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<PrivateRoute />}>
+              <Route path="/" element={<Popup />} />
+            </Route>
+            <Route path="/login" element={<Login />} />
+          </Routes>
+        </AuthProvider>
+      </TanstackQueryProvider>
     </MemoryRouter>
   );
 }
