@@ -37,21 +37,23 @@ export default function TodoCreate() {
   }, [setValue]);
 
   return (
-    <div className="w-full h-full px-16 py-24">
-      <header className="text-gray-900">
+    <div className="w-full h-full py-24 text-sm">
+      <header className="text-gray-900 px-16">
         <button onClick={goBuilDoneSite}>
           <img src={chrome.runtime.getURL(logo)} className="App-logo" alt="logo" />
         </button>
       </header>
       <main className="mt-16">
-        <form className="flex flex-col gap-16">
+        <form className="flex flex-col gap-16 px-16">
           <Input id="link" type="text" value={link} readOnly />
           <Input id="title" type="text" placeholder="할 일의 제목을 적어주세요." {...register('title')} />
           <GoalDropdown />
-          <Button className="w-full" disabled={!isValid} onClick={handleSubmit(onSubmit)}>
-            확인
-          </Button>
         </form>
+        <div className="px-16 w-full border-t border-slate-200 mt-24 pt-24">
+          <Button className="w-150 font-semibold" disabled={!isValid} onClick={handleSubmit(onSubmit)}>
+            생성하기
+          </Button>
+        </div>
       </main>
     </div>
   );

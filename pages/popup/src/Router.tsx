@@ -7,6 +7,7 @@ import PrivateRoute from './components/PrivateRoute';
 import { useStorage } from '@extension/shared';
 import { authStorage } from '@extension/storage';
 import TanstackQueryProvider from '@src/lib/tanstack-query-provider';
+//import { reissueAccessToken } from './services/auth/token';
 interface AuthContextProps {
   authenticated: boolean;
   setAuthenticated: Dispatch<SetStateAction<boolean>>;
@@ -28,6 +29,21 @@ export function useAuthContext() {
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [authenticated, setAuthenticated] = useState(true);
   const auth = useStorage(authStorage);
+
+  //useEffect(() => {
+  //  const getNewToken = async () => {
+  //    const newAccessToken = await reissueAccessToken();
+  //    if (newAccessToken) {
+  //      return await authStorage.setAccessToken(newAccessToken);
+  //    }
+  //    chrome.cookies.getAll({ url: 'https://buildone.me' }, cookies => {
+  //      console.log(cookies);
+  //    });
+  //  };
+  //  if (!auth) {
+  //    getNewToken();
+  //  }
+  //}, [auth]);
 
   useEffect(() => {
     if (auth) {
