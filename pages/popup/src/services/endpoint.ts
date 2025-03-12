@@ -7,4 +7,10 @@ export const ENDPOINT = {
     SIGNUP: `${PREFIX}/auth/signup`,
     TOKEN_VALIDATION: `${PREFIX}/auth/token`,
   },
+  GOAL: {
+    GET_ALL: `${PREFIX}/goals`,
+  },
+  TODO: {
+    CREATE: `${PREFIX}/todos`,
+  },
 };

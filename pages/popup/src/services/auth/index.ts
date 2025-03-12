@@ -1,7 +1,6 @@
 import type { AxiosResponse } from 'axios';
 import { ENDPOINT } from '../endpoint';
 import api from '@src/lib/axios';
-import { useAuthStore } from '@src/store/auth-store';
 import { useUserStore } from '@src/store/user-store';
 import type { LoginResponse } from '@src/types/auth';
 
@@ -10,12 +9,9 @@ export const login = async (email: string, password: string): Promise<AxiosRespo
     email,
     password,
   });
-  console.log(res);
 
-  const { accessToken } = res.data.credentials;
   const { memberInformation } = res.data;
 
-  useAuthStore.getState().setAccessToken(accessToken);
   useUserStore.getState().setUserInfo(memberInformation);
 
   return res;

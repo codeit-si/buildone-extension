@@ -1,11 +1,13 @@
 'use client';
 
-import { forwardRef, InputHTMLAttributes, Ref, useState } from 'react';
+import type { InputHTMLAttributes, Ref } from 'react';
+import { forwardRef, useState } from 'react';
 
 import Label from './Label';
+import { cn } from '@extension/ui';
 
 export const BASE_CLASS =
-  'flex items-center justify-center space-x-8 rounded-xl border border-slate-50 bg-slate-50 px-24 py-12 text-base font-normal focus-within:border-dark-blue-500 hover:border-dark-blue-300';
+  'flex items-center justify-center space-x-8 rounded-xl border border-slate-50 bg-slate-50 px-24 py-12 font-normal focus-within:border-dark-blue-500 hover:border-dark-blue-300';
 
 export const RESPONSIVE_CLASS = 'h-44 w-343 md:h-48 md:w-612';
 
@@ -25,7 +27,7 @@ export default forwardRef(function Input(
   return (
     <>
       {label && <Label htmlFor={id} label={label} />}
-      <div className={BASE_CLASS + ' ' + className}>
+      <div className={cn(BASE_CLASS, className)}>
         <input
           className="m-0 flex-1 appearance-none border-none bg-transparent p-0 text-slate-800 outline-none placeholder:text-slate-400"
           type={type === 'password' ? (showPassword ? 'text' : 'password') : type}

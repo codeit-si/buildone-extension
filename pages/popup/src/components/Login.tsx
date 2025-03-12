@@ -9,6 +9,7 @@ import { login } from '@src/services/auth';
 import { ApiError } from '@src/lib/error';
 import { useNavigate } from 'react-router';
 import { LOGIN_ERROR_CODE } from '@src/constants/error';
+import { authStorage } from '@extension/storage';
 
 const loginSchema = z.object({
   email: z.string().nonempty('이메일을 입력해주세요.').email('이메일 형식을 입력해주세요.'),
@@ -50,10 +51,14 @@ export default function Login() {
 
   const onSubmit = async (data: LoginSchema) => {
     try {
-      await login(data.email, data.password);
+      const { data: res } = await login(data.email, data.password);
+
+      const { accessToken } = res.credentials;
+      authStorage.setAccessToken(accessToken);
 
       navigate('/');
     } catch (error: unknown) {
+      console.log(error);
       if (error instanceof ApiError) {
         if (
           error.code === LOGIN_ERROR_CODE.INVALID_EMAIL_FORMAT ||

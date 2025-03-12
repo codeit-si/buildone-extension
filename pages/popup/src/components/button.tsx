@@ -15,8 +15,8 @@ const ButtonVariants = cva('flex items-center justify-center px-18 py-8 font-sem
       round: 'rounded-3xl',
     },
     size: {
-      lg: 'min-w-291 min-h-48 text-base',
-      md: 'min-w-150 min-h-44 text-base',
+      lg: 'min-w-291 min-h-48',
+      md: 'min-w-150 min-h-44',
       sm: 'min-w-84 min-h-36 text-sm',
     },
   },
