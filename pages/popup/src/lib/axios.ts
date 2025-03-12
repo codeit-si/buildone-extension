@@ -2,7 +2,7 @@ import axios, { AxiosError } from 'axios';
 
 import { ENDPOINT } from '@src/services/endpoint';
 import { ApiError } from './error';
-import { getConfigWithAuthorizationHeaders } from '@src/services/auth/token';
+import { getConfigWithAuthorizationHeaders, reissueAccessToken } from '@src/services/auth/token';
 import { authStorage } from '@extension/storage';
 
 const api = axios.create({
@@ -22,6 +22,13 @@ api.interceptors.request.use(
 
     if (accessToken) {
       return getConfigWithAuthorizationHeaders(config, accessToken);
+    }
+
+    const newAccessToken = await reissueAccessToken();
+
+    if (newAccessToken) {
+      authStorage.setAccessToken(newAccessToken);
+      return getConfigWithAuthorizationHeaders(config, newAccessToken);
     }
 
     return config;
