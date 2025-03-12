@@ -9,7 +9,6 @@ export const login = async (email: string, password: string): Promise<AxiosRespo
     email,
     password,
   });
-  console.log(res);
 
   const { memberInformation } = res.data;
 

@@ -26,7 +26,6 @@ export const reissueAccessToken = async (): Promise<string | null> => {
     if (!token) {
       throw new Error('토큰이 응답에 포함되지 않았습니다.');
     }
-
     return token;
   } catch {
     return null;

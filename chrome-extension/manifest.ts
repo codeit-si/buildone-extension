@@ -29,7 +29,7 @@ const manifest = {
   },
   version: packageJson.version,
   description: '__MSG_extensionDescription__',
-  host_permissions: ['<all_urls>'],
+  host_permissions: ['*://*.buildone.me/'],
   permissions: ['storage', 'scripting', 'tabs', 'notifications', 'cookies'],
   background: {
     service_worker: 'background.js',

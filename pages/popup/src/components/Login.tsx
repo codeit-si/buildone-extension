@@ -58,6 +58,7 @@ export default function Login() {
 
       navigate('/');
     } catch (error: unknown) {
+      console.log(error);
       if (error instanceof ApiError) {
         if (
           error.code === LOGIN_ERROR_CODE.INVALID_EMAIL_FORMAT ||

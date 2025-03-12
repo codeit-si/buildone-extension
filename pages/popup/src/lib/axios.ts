@@ -2,11 +2,7 @@ import axios, { AxiosError } from 'axios';
 
 import { ENDPOINT } from '@src/services/endpoint';
 import { ApiError } from './error';
-import {
-  getConfigWithAuthorizationHeaders,
-  reissueAccessToken,
-  retryRequestWithNewToken,
-} from '@src/services/auth/token';
+import { getConfigWithAuthorizationHeaders } from '@src/services/auth/token';
 import { authStorage } from '@extension/storage';
 
 const api = axios.create({
@@ -28,13 +24,6 @@ api.interceptors.request.use(
       return getConfigWithAuthorizationHeaders(config, accessToken);
     }
 
-    const newAccessToken = await reissueAccessToken();
-
-    if (newAccessToken) {
-      await authStorage.setAccessToken(newAccessToken);
-      return getConfigWithAuthorizationHeaders(config, newAccessToken);
-    }
-
     return config;
   },
   (error: unknown) => {
@@ -46,19 +35,9 @@ api.interceptors.response.use(
   response => response,
   async (error: unknown) => {
     if (error instanceof AxiosError && error.response?.status === 401) {
-      try {
-        const newToken = await reissueAccessToken();
+      await authStorage.removeAccessToken();
 
-        if (newToken) {
-          return await retryRequestWithNewToken(error.config!, newToken, api);
-        }
-
-        throw new Error('토큰 갱신에 실패했습니다.');
-      } catch {
-        await authStorage.removeAccessToken();
-
-        return Promise.reject(new ApiError('로그인이 필요합니다.'));
-      }
+      return Promise.reject(new ApiError('로그인이 필요합니다.'));
     } else {
       return Promise.reject(new ApiError(error));
     }
