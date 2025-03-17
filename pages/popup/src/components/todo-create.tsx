@@ -7,7 +7,7 @@ import type { TodoFormSchema } from '@src/Popup';
 import { useTodoFormContext } from '@src/Popup';
 
 export default function TodoCreate() {
-  const { mutate } = useCreateTodo();
+  const { mutate, isSuccess, isError } = useCreateTodo();
   const {
     formState: { isValid },
     handleSubmit,
@@ -49,10 +49,12 @@ export default function TodoCreate() {
           <Input id="title" type="text" placeholder="할 일의 제목을 적어주세요." {...register('title')} />
           <GoalDropdown />
         </form>
-        <div className="px-16 w-full border-t border-slate-200 mt-24 pt-24">
+        <div className="px-16 w-full border-t border-slate-200 mt-24 pt-24 flex justify-between items-center">
           <Button className="w-150 font-semibold" disabled={!isValid} onClick={handleSubmit(onSubmit)}>
             생성하기
           </Button>
+          {isSuccess && <span className="text-dark-blue-700 font-medium text-base">할 일이 생성되었습니다</span>}
+          {isError && <span className="text-red font-medium text-base">할일 생성에 실패하였습니다</span>}
         </div>
       </main>
     </div>
