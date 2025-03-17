@@ -2,13 +2,8 @@ import axios, { AxiosError } from 'axios';
 
 import { ENDPOINT } from '@src/services/endpoint';
 import { ApiError } from './error';
-import { useAuthStore } from '@src/store/auth-store';
-import {
-  getConfigWithAuthorizationHeaders,
-  reissueAccessToken,
-  retryRequestWithNewToken,
-} from '@src/services/auth/token';
-import { storeAccessTokenInCookie } from '@src/services/auth/route-handler';
+import { getConfigWithAuthorizationHeaders, reissueAccessToken } from '@src/services/auth/token';
+import { authStorage } from '@extension/storage';
 
 const api = axios.create({
   baseURL: process.env.CEB_SERVER_ADDRESS,
@@ -23,7 +18,7 @@ api.interceptors.request.use(
       return config;
     }
 
-    const { accessToken } = useAuthStore.getState();
+    const accessToken = await authStorage.get();
 
     if (accessToken) {
       return getConfigWithAuthorizationHeaders(config, accessToken);
@@ -32,7 +27,7 @@ api.interceptors.request.use(
     const newAccessToken = await reissueAccessToken();
 
     if (newAccessToken) {
-      await storeAccessTokenInCookie(newAccessToken);
+      authStorage.setAccessToken(newAccessToken);
       return getConfigWithAuthorizationHeaders(config, newAccessToken);
     }
 
@@ -47,20 +42,9 @@ api.interceptors.response.use(
   response => response,
   async (error: unknown) => {
     if (error instanceof AxiosError && error.response?.status === 401) {
-      try {
-        const newToken = await reissueAccessToken();
+      await authStorage.removeAccessToken();
 
-        if (newToken) {
-          return await retryRequestWithNewToken(error.config!, newToken, api);
-        }
-
-        throw new Error('토큰 갱신에 실패했습니다.');
-      } catch {
-        const { removeAccessToken } = useAuthStore.getState();
-        removeAccessToken();
-
-        return Promise.reject(new ApiError('로그인이 필요합니다.'));
-      }
+      return Promise.reject(new ApiError('로그인이 필요합니다.'));
     } else {
       return Promise.reject(new ApiError(error));
     }
